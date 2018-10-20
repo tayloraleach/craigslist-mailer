@@ -15,10 +15,13 @@ module.exports = class DOM_Tickler {
     let new_tab = document.createElement("div");
     new_tab.className = "item active";
     new_tab.setAttribute("data-tab", `data-${data.name}`);
+    let indicator_icon = document.createElement('i');
+    indicator_icon.className = 'circle green icon';
     var tab_text = document.createTextNode(data.name);
-    new_tab.appendChild(tab_text);
     let close_icon = document.createElement('i');
     close_icon.className = 'close icon';
+    new_tab.appendChild(indicator_icon);
+    new_tab.appendChild(tab_text);
     new_tab.appendChild(close_icon);
     // Add tab to page
     document.querySelector('.top.attached.tabular.menu').appendChild(new_tab);

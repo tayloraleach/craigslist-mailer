@@ -111,10 +111,13 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     console.log('Scraping for: ' + the_name + ' at ' + the_URL);
     document.querySelector("#submit-search").classList.add('loading');
 
+    const date = new Date();
+
     const form_data = {
+      id: the_URL + '::' + date.getTime(),
       name: the_name,
       url: the_URL,
-      date: new Date()
+      date: date
     }
 
     const dom_tickler = new DOM_Tickler();
