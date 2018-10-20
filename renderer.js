@@ -95,23 +95,37 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   const the_URL = document.querySelector("#search-url").value;
   const the_name = document.querySelector("#search-name").value;
 
-  console.log('Scraping for: '+ the_name + ' at ' + the_URL);
-  document.querySelector("#submit-search").classList.add('loading');
+  const error_message = document.querySelector("#errors");
 
-  const form_data = {
-    name: the_name,
-    url: the_URL,
-    date: new Date()
+  function show_error_message(msg) {
+    error_message.querySelector('p').innerHTML = msg;
+    error_message.classList.remove('hidden');
   }
 
-  const dom_tickler = new DOM_Tickler();
-  dom_tickler.create_new_UI_tab(form_data);
+  // Error handling
+  if (the_URL.length < 1) show_error_message('Searching for nothing will yield poor results.');
+  if (the_name.length < 1) show_error_message('A name is required to remember what you were searching for!');
 
-  // launchBrowser(the_URL);
+  if (the_URL.length && the_name.length) {
+    error_message.classList.add('hidden');
+    console.log('Scraping for: ' + the_name + ' at ' + the_URL);
+    document.querySelector("#submit-search").classList.add('loading');
+
+    const form_data = {
+      name: the_name,
+      url: the_URL,
+      date: new Date()
+    }
+
+    const dom_tickler = new DOM_Tickler();
+    dom_tickler.create_new_UI_tab(form_data);
+
+    // launchBrowser(the_URL);
+  }
+
+
 });
 
 
 // Activate tab switching
 $('.menu .item').tab();
-
-

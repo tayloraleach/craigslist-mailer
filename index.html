@@ -4,7 +4,7 @@
 <head>
 
   <meta charset="UTF-8">
-  <title>Craigslist Cars & Trucks</title>
+  <title>Craigslist Mailer</title>
   <link rel="stylesheet" href="./css/semantic.min.css">
   <link rel="stylesheet" href="./css/icon.min.css">
   <link rel="stylesheet" href="./css/custom.css">
@@ -17,18 +17,17 @@
     <div class="ui padded segment" id="main-content-container">
 
       <div class="ui top attached tabular menu">
-        <div class="active item" data-tab="scraper">Mailer</div>
+        <div class="active item" data-tab="scraper">Engine</div>
       </div>
-
 
       <div class="ui bottom attached active tab segment" data-tab="scraper">
 
-        <p>Go to craigslist and specify what you want to watch. Paste the URL here and hit start</p>
+        <p>Go to craigslist search for something you want to monitor. Paste the URL below and hit start.</p>
 
         <div class="ui form">
 
           <div class="sixteen wide field">
-            <label for="">Name</label>
+            <label for="">Name (for convenience)</label>
             <div class="field">
               <input type="text" id="search-name" name="search-name" placeholder="All macbooks in Vancouver">
             </div>
@@ -40,6 +39,10 @@
             <div class="field">
               <input type="url" required id="search-url" name="search-url" placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
             </div>
+          </div>
+
+          <div class="ui message negative mini hidden" id="errors">
+            <p>Oops... Something went wrong!</p>
           </div>
 
           <div class="field">
