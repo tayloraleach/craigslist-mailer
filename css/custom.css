@@ -1,0 +1,28 @@
+body {
+  background-color: #f1f1f1;
+  overflow: hidden;
+}
+
+.app-wrapper {
+  margin: 20px;
+}
+.link-item {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+td i {
+  margin-right: 10px !important;
+}
+
+i.close.icon {
+  margin: 0 -3px 0 3px !important;
+}
+
+.tabular.menu>div {
+  cursor: pointer;
+}
+
+.files-table {
+  margin: 0 !important;
+}
