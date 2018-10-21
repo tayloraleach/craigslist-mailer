@@ -24,14 +24,15 @@
 
       <div class="ui bottom attached active tab segment" data-tab="scraper">
 
-        <p>Go to craigslist search for something you want to monitor. Paste the URL below and hit start.</p>
+        <p>Go to Craigslist and search for something you want to monitor. Paste the URL below, hit start, and an email
+          will be sent to you when a new listing is posted.</p>
 
         <div class="ui form">
 
           <div class="sixteen wide field">
-            <label for="">Name (for convenience)</label>
+            <label for="">Name</label>
             <div class="field">
-              <input type="text" value="a palce to rent" id="search-name" name="search-name" placeholder="All macbooks in Vancouver">
+              <input type="text" id="search-name" name="search-name" placeholder="All macbooks in Vancouver">
             </div>
           </div>
 
@@ -39,8 +40,7 @@
             <label for="">URL</label>
 
             <div class="field">
-              <input type="url" required id="search-url" name="search-url" value="https://vancouver.craigslist.ca/search/apa?query=-surrey+-coquitlam+-westminster+-richmond+-+mission+-+squamish&min_price=1100&max_price=1650&max_bedrooms=2&minSqft=500&availabilityMode=0&pets_dog=1&sale_date=all+dates"
-                placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
+              <input type="url" required id="search-url" name="search-url" placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
             </div>
           </div>
 
@@ -58,6 +58,7 @@
       </div><!-- end segment bottom / -->
     </div><!-- end main container / -->
 
+    <!-- Email settings -->
     <div class="ui padded segment mini" id="info-container">
 
       <div class="ui accordion field">
@@ -88,7 +89,6 @@
               </div>
             </div>
 
-
             <div class="field">
               <button id="email-settings" class="mini ui grey button">
                 <i class="save-check"></i>
@@ -98,9 +98,8 @@
 
           </form>
         </div>
-
       </div>
-    </div>
+    </div><!-- /end email settings -->
 
     <!-- Insert this line above script imports  -->
     <script>
@@ -115,7 +114,6 @@
     <script src="vendor_scripts/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="utilities.js"></script>
-
 
     <!-- Insert this line after script imports -->
     <script>

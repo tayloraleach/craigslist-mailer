@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const Manager = require('./Manager');
 
 module.exports = class Scraper {
 
@@ -15,12 +14,10 @@ module.exports = class Scraper {
     this.mailer = mailer;
   }
 
-  // Used to prevent the scraping from occuring at a constant interval. Less suspicious!
   randomIntBetweenBounds(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  // Called from the API after the search is deleted from the DB.
   async stop() {
     clearTimeout(this.timer[this.id]);
     this.timer = null;
@@ -31,7 +28,10 @@ module.exports = class Scraper {
   start() {
     this.scrape(this.search_url);
 
-    const rand = this.randomIntBetweenBounds(0, 3600000 / 2);
+    // Prevent scraping from occuring at a constant interval. Less suspicious! >_>
+    // Runs at a random amount of time between 0 and 30 minutes
+    const half_an_hour = 3600000 / 2
+    const rand = this.randomIntBetweenBounds(0, half_an_hour);
     // Store the reference to the timeOut and recursilvley call itself at a random interval.
     this.timer[this.id] = setTimeout(() => {
       this.start();
@@ -136,7 +136,7 @@ module.exports = class Scraper {
         // Launch & Setup browser
         this.browser = await puppeteer.launch({
           args: ["--no-sandbox"],
-          headless: false
+          headless: true
         });
         this.page = await this.browser.newPage();
         await this.page.setViewport({

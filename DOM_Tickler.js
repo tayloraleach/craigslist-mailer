@@ -1,4 +1,3 @@
-const storage = require('electron-json-storage');
 const Manager = require('./Manager');
 
 module.exports = class DOM_Tickler {

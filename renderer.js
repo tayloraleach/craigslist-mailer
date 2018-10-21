@@ -5,7 +5,6 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 
-
 // Populate email settings field on load
 storage.get('email_settings', function (error, data) {
   if (error) throw error;
@@ -29,10 +28,9 @@ const save_check = document.querySelector('.save-check');
 document.querySelector("#submit-search").addEventListener("click", () => {
   event.preventDefault();
 
-  // Grab DOM elements
+  // Grab DOM elements/values
   const the_URL = document.querySelector("#search-url").value;
   const the_name = document.querySelector("#search-name").value;
-
   const error_message = document.querySelector("#errors");
 
   function show_error_message(msg) {
@@ -103,7 +101,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
 document.querySelector('#email-settings').addEventListener('click', () => {
   event.preventDefault();
 
-  // Save to json files
+  // Save to json file
   storage.set('email_settings', {
     to_email: to_email.value,
     from_email: from_email.value,
