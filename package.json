@@ -20,6 +20,8 @@
     "electron": "^2.0.0"
   },
   "dependencies": {
+    "electron-json-storage": "^4.1.4",
+    "nodemailer": "^4.6.7",
     "puppeteer": "^1.8.0"
   }
 }

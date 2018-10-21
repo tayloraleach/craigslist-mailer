@@ -1,4 +1,4 @@
-const fs = require('fs');
+const storage = require('electron-json-storage');
 
 module.exports = class DOM_Tickler {
 
@@ -75,7 +75,7 @@ module.exports = class DOM_Tickler {
     let content = `
       <div class="ui segment">
         <h5>${data.name}</h5>
-        <span>${data.url}</span>
+        <span>${data.search_url}</span>
       </div>`;
     return content;
   }

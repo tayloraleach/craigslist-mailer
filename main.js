@@ -1,4 +1,5 @@
 const electron = require('electron');
+const storage = require('electron-json-storage');
 
 // Module to control application life.
 const app = electron.app;
