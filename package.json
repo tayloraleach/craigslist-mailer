@@ -1,5 +1,5 @@
 {
-  "name": "Craigslist Mailer",
+  "name": "craigslist-mailer",
   "version": "1.0.0",
   "description": "Application that monitors Craigslist for new listings and sends out an email.",
   "main": "main.js",
