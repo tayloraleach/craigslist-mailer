@@ -73,3 +73,6 @@ document.querySelector("#submit-search").addEventListener("click", () => {
 
 // Activate tab switching
 $('.menu .item').tab();
+
+// Activate email settings accordian
+$('.ui.accordion').accordion();

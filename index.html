@@ -37,7 +37,8 @@
             <label for="">URL</label>
 
             <div class="field">
-              <input type="url" required id="search-url" name="search-url" value="https://vancouver.craigslist.ca/search/apa?query=-surrey+-coquitlam+-westminster+-richmond+-+mission+-+squamish&min_price=1100&max_price=1650&max_bedrooms=2&minSqft=500&availabilityMode=0&pets_dog=1&sale_date=all+dates" placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
+              <input type="url" required id="search-url" name="search-url" value="https://vancouver.craigslist.ca/search/apa?query=-surrey+-coquitlam+-westminster+-richmond+-+mission+-+squamish&min_price=1100&max_price=1650&max_bedrooms=2&minSqft=500&availabilityMode=0&pets_dog=1&sale_date=all+dates"
+                placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
             </div>
           </div>
 
@@ -55,27 +56,38 @@
       </div><!-- end segment bottom / -->
     </div><!-- end main container / -->
 
+    <div class="ui padded segment mini" id="info-container">
 
+      <div class="ui accordion field">
+        <div class="title">
+          <i class="icon envelope"></i>
+          Email Settings
+        </div>
 
-    <!-- Delete confirmation -->
-    <div class="ui basic modal">
-      <div class="ui icon header">
-        <i class="trash icon"></i>
-        Are you sure?
-      </div>
-      <div class="content">
-        <p style="max-width: 450px; margin: auto;">This will delete the .json file from the app and you will
-          permanently lose all the data. You can scrape more data in the scrape tab.</p>
-      </div>
-      <div class="actions">
-        <div class="ui red basic cancel inverted button">
-          <i class="remove icon"></i>
-          No
+        <div class="content">
+          <form class="ui form">
+
+            <h4>From:</h4>
+            <div class="two fields">
+              <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="some_burner_email@gmail.com">
+              </div>
+
+              <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+              </div>
+            </div>
+
+            <h4>To:</h4>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="your_actual_email_address@gmail.com">
+            </div>
+          </form>
         </div>
-        <div class="ui green ok inverted button confirm-delete-button">
-          <i class="checkmark icon"></i>
-          Yes
-        </div>
+
       </div>
     </div>
 
