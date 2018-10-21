@@ -89,7 +89,7 @@ module.exports = class DOM_Tickler {
 
   create_tab_body_for_search(data) {
     let content = `
-      <div class="ui segment">
+      <div class="ui segment break-word">
         <h5>${data.name}</h5>
         <span>${data.search_url}</span>
       </div>`;

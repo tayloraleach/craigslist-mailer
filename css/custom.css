@@ -6,6 +6,7 @@ body {
 .app-wrapper {
   margin: 20px;
 }
+
 .link-item {
   cursor: pointer;
   text-decoration: underline;
@@ -25,4 +26,8 @@ i.close.icon {
 
 .files-table {
   margin: 0 !important;
+}
+
+.break-word {
+  word-wrap: break-word;
 }

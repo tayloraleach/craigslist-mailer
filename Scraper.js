@@ -135,7 +135,7 @@ module.exports = class Scraper {
         // Launch & Setup browser
         this.browser = await puppeteer.launch({
           args: ["--no-sandbox"],
-          headless: false
+          headless: true
         });
         this.page = await this.browser.newPage();
         await this.page.setViewport({
