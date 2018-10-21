@@ -40,6 +40,7 @@ module.exports = class DOM_Tickler {
           if (scraper.id == data.id) {
             scraper.scraper.stop();
             Manager.scrapers.splice(index, 1);
+            console.log(Manager.scrapers);
           }
         });
 

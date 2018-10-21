@@ -1,21 +1,9 @@
 const app = require("electron").remote.app;
 const DOM_Tickler = require('./DOM_Tickler');
 const storage = require('electron-json-storage');
-const node_mailer = require('nodemailer');
 const Scraper = require('./Scraper');
 const Manager = require('./Manager');
-
-// Node Mailer Setup  TODO: SET CRIDENTIALS VIA APP
-var smtp_transport = node_mailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: '',
-    pass: ''
-  }
-});
+const Mailer = require('./Mailer');
 
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
@@ -42,6 +30,20 @@ document.querySelector("#submit-search").addEventListener("click", () => {
 
     const date = new Date();
 
+    // Create a new mailer
+    const mailer_options = {
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: 'x',
+        pass: 'x'
+      }
+    }
+    const mailer = new Mailer('taylorleach@hotmail.com', mailer_options);
+
+    // Data object sent to the scraper
     const form_data = {
       id: the_URL + '::' + date.getTime(),
       name: the_name,
@@ -49,10 +51,12 @@ document.querySelector("#submit-search").addEventListener("click", () => {
       date: date
     }
 
+    // Create a new tab in the UI
     const dom_tickler = new DOM_Tickler();
     dom_tickler.create_new_UI_tab(form_data);
 
-    const scraper = new Scraper(form_data);
+    // Create the scraper
+    const scraper = new Scraper(form_data, mailer);
 
     // Add to scraper manager
     Manager.scrapers.push({
