@@ -5,6 +5,7 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 
+
 // Populate email settings field on load
 storage.get('email_settings', function (error, data) {
   if (error) throw error;
@@ -15,13 +16,14 @@ storage.get('email_settings', function (error, data) {
 
 // Activate tab switching
 $('.menu .item').tab();
+// Activate email settings accordian
+$('.ui.accordion').accordion();
 
 // Grab fields from DOM
 const to_email = document.querySelector('#to-email');
 const from_email = document.querySelector('#from-email');
 const from_password = document.querySelector('#from-password');
 const save_check = document.querySelector('.save-check');
-
 
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
@@ -41,8 +43,12 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   // Error handling
   if (the_URL.length < 1) show_error_message('Searching for nothing will yield poor results.');
   if (the_name.length < 1) show_error_message('A name is required to remember what you were searching for!');
+  const bad_email_settings = 'Make sure you fill out the email settings below';
+  if (to_email.value.length < 1) show_error_message(bad_email_settings);
+  if (from_email.value.length < 1) show_error_message(bad_email_settings);
+  if (from_password.value.length < 1) show_error_message(bad_email_settings);
 
-  if (the_URL.length && the_name.length) {
+  if (the_URL.length && the_name.length && to_email.value.length && from_email.value.length && from_password.value.length) {
     error_message.classList.add('hidden');
     console.log('Scraping for: ' + the_name + ' at ' + the_URL);
 
@@ -87,10 +93,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   }
 });
 
-
-// Activate email settings accordian
-$('.ui.accordion').accordion();
-
+// Email settings save button event listner
 document.querySelector('#email-settings').addEventListener('click', () => {
   event.preventDefault();
 
@@ -103,11 +106,13 @@ document.querySelector('#email-settings').addEventListener('click', () => {
     if (error) throw error;
   });
 
-  // Green button and close accordian
+  // Indicate saved to the user
   save_check.classList.add('icon');
   save_check.classList.add('check');
   save_check.parentNode.classList.add('green');
   save_check.nextElementSibling.innerText = "Saved";
+
+  // Close accordian
   setTimeout(() => {
     $('.ui.accordion').accordion('close', 0);
     save_check.classList.remove('icon');
@@ -115,9 +120,5 @@ document.querySelector('#email-settings').addEventListener('click', () => {
     save_check.parentNode.classList.remove('green');
     save_check.nextElementSibling.innerText = "Save";
   }, 500);
-
-
-  // Show saved message
-
 
 });
