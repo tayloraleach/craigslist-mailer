@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "Craigslist Mailer",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Application that monitors Craigslist for new listings and sends out an email.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -10,14 +10,7 @@
     "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
   },
   "repository": "https://github.com/tayloraleach/craigslist-mailer",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
+  "author": "Taylor A. Leach",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^2.0.8",
