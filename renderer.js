@@ -5,10 +5,22 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 
+// Populate email settings field on load
+storage.get('email_settings', function (error, data) {
+  if (error) throw error;
+  to_email.value = data.to_email;
+  from_email.value = data.from_email;
+  from_password.value = data.from_password;
+});
+
+// Activate tab switching
+$('.menu .item').tab();
+
 // Grab fields from DOM
 const to_email = document.querySelector('#to-email');
 const from_email = document.querySelector('#from-email');
 const from_password = document.querySelector('#from-password');
+const save_check = document.querySelector('.save-check');
 
 
 // Main scrape button event listener
@@ -76,6 +88,9 @@ document.querySelector("#submit-search").addEventListener("click", () => {
 });
 
 
+// Activate email settings accordian
+$('.ui.accordion').accordion();
+
 document.querySelector('#email-settings').addEventListener('click', () => {
   event.preventDefault();
 
@@ -88,26 +103,21 @@ document.querySelector('#email-settings').addEventListener('click', () => {
     if (error) throw error;
   });
 
-  // Close accordian in the UI
+  // Green button and close accordian
+  save_check.classList.add('icon');
+  save_check.classList.add('check');
+  save_check.parentNode.classList.add('green');
+  save_check.nextElementSibling.innerText = "Saved";
+  setTimeout(() => {
+    $('.ui.accordion').accordion('close', 0);
+    save_check.classList.remove('icon');
+    save_check.classList.remove('check');
+    save_check.parentNode.classList.remove('green');
+    save_check.nextElementSibling.innerText = "Save";
+  }, 500);
+
 
   // Show saved message
 
 
 });
-
-
-// Populate email settings field on load
-storage.get('email_settings', function (error, data) {
-  if (error) throw error;
-  to_email.value = data.to_email;
-  from_email.value = data.from_email;
-  from_password.value = data.from_password;
-});
-
-
-
-// Activate tab switching
-$('.menu .item').tab();
-
-// Activate email settings accordian
-$('.ui.accordion').accordion();
