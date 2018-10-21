@@ -3,6 +3,7 @@ const DOM_Tickler = require('./DOM_Tickler');
 const storage = require('electron-json-storage');
 const node_mailer = require('nodemailer');
 const Scraper = require('./Scraper');
+const Manager = require('./Manager');
 
 // Node Mailer Setup  TODO: SET CRIDENTIALS VIA APP
 var smtp_transport = node_mailer.createTransport({
@@ -11,91 +12,10 @@ var smtp_transport = node_mailer.createTransport({
   secure: false,
   requireTLS: true,
   auth: {
-      user: '',
-      pass: ''
+    user: '',
+    pass: ''
   }
 });
-
-// Main launch function fired when a new search is started
-// const launchBrowser = async (url) => {
-
-//   // This is our reference to the listings
-//   let all_listings = [];
-
-//   try {
-//     // Launch & Setup browser window
-//     const browser = await puppeteer.launch({
-//       args: ["--no-sandbox"],
-//       headless: true
-//     });
-//     const page = await browser.newPage();
-//     await page.setViewport({
-//       width: 1920,
-//       height: 926
-//     });
-//     page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36');
-
-//     await page.goto(url);
-//     await page.waitForSelector('ul.rows');
-
-//     // Get all the listings on the page
-//     const listing_objects = await page.evaluate(() => {
-//       let listings = [];
-//       let elms = document.querySelectorAll("li.result-row");
-//       elms.forEach(element => {
-//         let json = {};
-//         const p_result_info = element.querySelector("p.result-info");
-//         const result_meta = p_result_info.querySelector("span.result-meta");
-//         try {
-//           if (p_result_info) {
-//             json.id = element.getAttribute('data-pid');
-//             json.title = p_result_info.querySelector("a.result-title").innerText;
-//             json.href = p_result_info.querySelector("a.result-title").href;
-//             json.data_time = p_result_info.querySelector("time.result-date").getAttribute('datetime');
-//           }
-//           if (result_meta) {
-//             if (result_meta.querySelector('span.result-price')) {
-//               json.price = result_meta.querySelector('span.result-price').innerText;
-//             }
-//             if (result_meta.querySelector('span.result-hood')) {
-//               json.hood = result_meta.querySelector('span.result-hood').innerText;
-//             }
-//           }
-//         } catch (e) {
-//           console.log("Error getting values from the dom...", e);
-//         }
-
-//         // Add listing to the array only if it is not a 'nearby area' result
-//         try {
-//           const nearby = result_meta.querySelector('.nearby');
-//           if (!nearby) {
-//             listings.push(json);
-//           }
-//         } catch (e) {
-//           console.log("Error removing results from nearby areas", e);
-//         }
-
-
-
-//       });
-//       return listings;
-//     });
-
-//     all_listings.push(...listing_objects);
-
-//     await browser.close();
-
-//   } catch (err) {
-//     console.log('SOMETHING WENT WRONG', err);
-//   }
-
-//   document.querySelector("#submit-search").classList.remove('loading');
-//   console.dir(all_listings);
-
-//   // do stuff
-
-// };
-
 
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
@@ -134,9 +54,16 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     dom_tickler.create_new_UI_tab(form_data);
 
     const scraper = new Scraper(form_data);
+
+    // Add to scraper manager
+    Manager.scrapers.push({
+      scraper: scraper,
+      id: date.getTime()
+    });
+
+    // Run the scraper
     scraper.start();
   }
-
 
 });
 

@@ -1,6 +1,5 @@
 const puppeteer = require("puppeteer");
 
-
 module.exports = class Scraper {
 
   constructor(data) {
@@ -19,7 +18,7 @@ module.exports = class Scraper {
   }
 
   // Called from the API after the search is deleted from the DB.
-  stop(id) {
+  stop() {
     clearTimeout(this.timer[this.id]);
     this.timer = null;
 
@@ -34,7 +33,7 @@ module.exports = class Scraper {
     // Store the reference to the timeOut and recursilvley call itself at a random interval.
     this.timer[this.id] = setTimeout(() => {
       this.start();
-    }, 10000);
+    }, rand);
   }
 
   check_for_new_listings(results) {
@@ -132,7 +131,7 @@ module.exports = class Scraper {
       // First run.
     } else {
       try {
-        // Launch & Setup browser window
+        // Launch & Setup browser
         const browser = await puppeteer.launch({
           args: ["--no-sandbox"],
           headless: false

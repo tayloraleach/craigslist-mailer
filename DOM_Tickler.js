@@ -1,4 +1,5 @@
 const storage = require('electron-json-storage');
+const Manager = require('./Manager');
 
 module.exports = class DOM_Tickler {
 
@@ -8,13 +9,15 @@ module.exports = class DOM_Tickler {
   }
 
   create_new_UI_tab(data) {
-    console.log(data);
+
     // Remove currently active tab
     remove_class_from_selectors('.top.attached.tabular.menu > *', 'active');
+
     // Create new tab
     let new_tab = document.createElement("div");
     new_tab.className = "item active";
     new_tab.setAttribute("data-tab", `data-${data.name}`);
+    new_tab.setAttribute("data-id", `data-${data.id}`);
     let indicator_icon = document.createElement('i');
     indicator_icon.className = 'circle green icon';
     var tab_text = document.createTextNode(data.name);
@@ -23,21 +26,29 @@ module.exports = class DOM_Tickler {
     new_tab.appendChild(indicator_icon);
     new_tab.appendChild(tab_text);
     new_tab.appendChild(close_icon);
+
     // Add tab to page
     document.querySelector('.top.attached.tabular.menu').appendChild(new_tab);
-    // Closing tabs event listeners
+
+    // Event listeners for closing a tab
     new_tab.addEventListener('click', function (e) {
       // Remove tab and body content when click tab close button
       if (e.target.classList.contains('close')) {
+
+        // Remove scraper from manager
+        // ...
+
         document.querySelectorAll(`[data-tab]`).forEach((element) => {
           if (element.getAttribute('data-tab') == `data-${data.name}`) element.remove();
         });
+
         // Set history tab back to active
         document.querySelectorAll('[data-tab]').forEach((x) => {
           if (x.getAttribute('data-tab') == 'scraper') {
             x.classList += ' active';
           }
         })
+
         // Enable the link again once closed
         document.querySelectorAll('.link-item').forEach((x) => {
           if (this.innerText == x.innerText) {
