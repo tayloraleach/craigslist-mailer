@@ -5,11 +5,17 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 
+// Grab fields from DOM
+const to_email = document.querySelector('#to-email');
+const from_email = document.querySelector('#from-email');
+const from_password = document.querySelector('#from-password');
+
+
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
   event.preventDefault();
 
-  // Get the data from the form
+  // Grab DOM elements
   const the_URL = document.querySelector("#search-url").value;
   const the_name = document.querySelector("#search-name").value;
 
@@ -67,8 +73,37 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     // Run the scraper
     scraper.start();
   }
+});
+
+
+document.querySelector('#email-settings').addEventListener('click', () => {
+  event.preventDefault();
+
+  // Save to json files
+  storage.set('email_settings', {
+    to_email: to_email.value,
+    from_email: from_email.value,
+    from_password: from_password.value,
+  }, function (error) {
+    if (error) throw error;
+  });
+
+  // Close accordian in the UI
+
+  // Show saved message
+
 
 });
+
+
+// Populate email settings field on load
+storage.get('email_settings', function (error, data) {
+  if (error) throw error;
+  to_email.value = data.to_email;
+  from_email.value = data.from_email;
+  from_password.value = data.from_password;
+});
+
 
 
 // Activate tab switching

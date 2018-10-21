@@ -17,7 +17,9 @@
     <div class="ui padded segment" id="main-content-container">
 
       <div class="ui top attached tabular menu">
-        <div class="active item" data-tab="scraper">Search</div>
+        <div class="active item" data-tab="scraper">
+          <i class="icon search"></i>Search
+        </div>
       </div>
 
       <div class="ui bottom attached active tab segment" data-tab="scraper">
@@ -67,24 +69,33 @@
         <div class="content">
           <form class="ui form">
 
+            <h4>To:</h4>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="email" id="to-email" placeholder="your_actual_email_address@gmail.com">
+            </div>
+
             <h4>From:</h4>
             <div class="two fields">
               <div class="field">
                 <label>Email</label>
-                <input type="email" name="email" placeholder="some_burner_email@gmail.com">
+                <input type="email" name="email" id="from-email" placeholder="some_burner_email@gmail.com">
               </div>
 
               <div class="field">
                 <label>Password</label>
-                <input type="password" name="password">
+                <input type="password" id="from-password" name="password">
               </div>
             </div>
 
-            <h4>To:</h4>
+
             <div class="field">
-              <label>Email</label>
-              <input type="email" name="email" placeholder="your_actual_email_address@gmail.com">
+              <button id="email-settings" class="mini ui green button">
+                <i class="icon check"></i>
+                Save
+              </button>
             </div>
+
           </form>
         </div>
 
