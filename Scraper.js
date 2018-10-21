@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const Manager = require('./Manager');
 
 module.exports = class Scraper {
 
@@ -9,7 +10,8 @@ module.exports = class Scraper {
       this.date = data.date,
       this.listings_array = [], // Array of items pulled from the page. Is updated upon each scrape.
       this.timer = {}, // Reference to the setTimeout loop.
-      this.page = false;
+      this.page = null,
+      this.browser = null
   }
 
   // Used to prevent the scraping from occuring at a constant interval. Less suspicious!
@@ -18,11 +20,10 @@ module.exports = class Scraper {
   }
 
   // Called from the API after the search is deleted from the DB.
-  stop() {
+  async stop() {
     clearTimeout(this.timer[this.id]);
     this.timer = null;
-
-    // await browser.close();
+    await this.browser.close();
   }
 
   // Main function loop.
@@ -82,7 +83,7 @@ module.exports = class Scraper {
 
       elms.forEach(element => {
         let listing = {};
-        const p_result_info = element.querySelector("p.result-info:not(.duplicate-row)");
+        const p_result_info = element.querySelector("p.result-info");
         const result_meta = p_result_info.querySelector("span.result-meta");
         try {
           if (p_result_info) {
@@ -122,7 +123,7 @@ module.exports = class Scraper {
   async scrape(url) {
 
     // if already running.
-    if (this.page !== false) {
+    if (this.page !== null) {
 
       await this.page.reload();
       const new_listings_array = await this.get_DOM_elements_from_page();
@@ -132,11 +133,11 @@ module.exports = class Scraper {
     } else {
       try {
         // Launch & Setup browser
-        const browser = await puppeteer.launch({
+        this.browser = await puppeteer.launch({
           args: ["--no-sandbox"],
           headless: false
         });
-        this.page = await browser.newPage();
+        this.page = await this.browser.newPage();
         await this.page.setViewport({
           width: 1920,
           height: 926

@@ -39,7 +39,6 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   if (the_URL.length && the_name.length) {
     error_message.classList.add('hidden');
     console.log('Scraping for: ' + the_name + ' at ' + the_URL);
-    document.querySelector("#submit-search").classList.add('loading');
 
     const date = new Date();
 
@@ -58,7 +57,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     // Add to scraper manager
     Manager.scrapers.push({
       scraper: scraper,
-      id: date.getTime()
+      id: the_URL + '::' + date.getTime()
     });
 
     // Run the scraper

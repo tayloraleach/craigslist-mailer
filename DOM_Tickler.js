@@ -35,8 +35,13 @@ module.exports = class DOM_Tickler {
       // Remove tab and body content when click tab close button
       if (e.target.classList.contains('close')) {
 
-        // Remove scraper from manager
-        // ...
+        // Stop scraper from running and remove scraper from manager
+        Manager.scrapers.forEach(function (scraper, index) {
+          if (scraper.id == data.id) {
+            scraper.scraper.stop();
+            Manager.scrapers.splice(index, 1);
+          }
+        });
 
         document.querySelectorAll(`[data-tab]`).forEach((element) => {
           if (element.getAttribute('data-tab') == `data-${data.name}`) element.remove();
