@@ -48,7 +48,12 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   if (from_email.value.length < 1) show_error_message(bad_email_settings);
   if (from_password.value.length < 1) show_error_message(bad_email_settings);
 
-  if (the_URL.length && the_name.length && to_email.value.length && from_email.value.length && from_password.value.length) {
+  // If no errors are detected
+  if (the_URL.length &&
+    the_name.length &&
+    to_email.value.length &&
+    from_email.value.length &&
+    from_password.value.length) {
     error_message.classList.add('hidden');
     console.log('Scraping for: ' + the_name + ' at ' + the_URL);
 
@@ -61,11 +66,12 @@ document.querySelector("#submit-search").addEventListener("click", () => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: 'x',
-        pass: 'x'
+        user: from_email.value,
+        pass: from_password.value
       }
     }
-    const mailer = new Mailer('taylorleach@hotmail.com', mailer_options);
+
+    const mailer = new Mailer(to_email.value, mailer_options);
 
     // Data object sent to the scraper
     const form_data = {
