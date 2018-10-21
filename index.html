@@ -11,95 +11,115 @@
 </head>
 
 <body>
+  <div class="scroll">
+    <div class="app-wrapper">
 
-  <div class="app-wrapper">
+      <div class="ui segment">
+        <h2>Craigslist Mailer</h2>
+        <ol>
+          <li>Configure email settings below.</li>
+          <li>Go to Craigslist and search for something you want to monitor.</li>
+          <li>Hit start and wait. Any new listings that are posted will be emailed to you.</li>
+        </ol>
 
-    <div class="ui padded segment" id="main-content-container">
-
-      <div class="ui top attached tabular menu">
-        <div class="active item" data-tab="scraper">
-          <i class="icon search"></i>Search
+        <div class="ui message mini">
+          <div class="header">
+            For best results
+          </div>
+          <p>Be specific as possible. Add price ranges for items, year models for vehicles, add flags for ignoring
+            stuffed keywords,
+            and tick bundle duplicates unless you want to receive a million emails. Checks run every 15 minutes or so.</p>
         </div>
+
       </div>
 
-      <div class="ui bottom attached active tab segment" data-tab="scraper">
+      <div class="ui padded segment" id="main-content-container">
 
-        <p>Go to Craigslist and search for something you want to monitor. Paste the URL below, hit start, and an email
-          will be sent to you when a new listing is posted.</p>
-
-        <div class="ui form">
-
-          <div class="sixteen wide field">
-            <label for="">Name</label>
-            <div class="field">
-              <input type="text" id="search-name" name="search-name" placeholder="All macbooks in Vancouver">
-            </div>
+        <div class="ui top attached tabular menu">
+          <div class="active item" data-tab="scraper">
+            <i class="icon search"></i>Search
           </div>
-
-          <div class="sixteen wide field">
-            <label for="">URL</label>
-
-            <div class="field">
-              <input type="url" required id="search-url" name="search-url" placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
-            </div>
-          </div>
-
-          <div class="ui message negative mini hidden" id="errors">
-            <p>Oops... Something went wrong!</p>
-          </div>
-
-          <div class="field">
-            <button id="submit-search" class="ui purple button" type="submit">
-              Start
-            </button>
-          </div>
-
-        </div> <!-- end form / -->
-      </div><!-- end segment bottom / -->
-    </div><!-- end main container / -->
-
-    <!-- Email settings -->
-    <div class="ui padded segment mini" id="info-container">
-
-      <div class="ui accordion field">
-        <div class="title">
-          <i class="icon envelope"></i>
-          Email Settings
         </div>
 
-        <div class="content">
-          <form class="ui form">
+        <div class="ui bottom attached active tab segment" data-tab="scraper">
 
-            <h4>To:</h4>
-            <div class="field">
-              <label>Email</label>
-              <input type="email" name="email" id="to-email" placeholder="your_actual_email_address@gmail.com">
-            </div>
+          <div class="ui form">
 
-            <h4>From:</h4>
-            <div class="two fields">
+            <div class="sixteen wide field">
+              <label for="">Name</label>
               <div class="field">
-                <label>Email</label>
-                <input type="email" name="email" id="from-email" placeholder="some_burner_email@gmail.com">
-              </div>
-
-              <div class="field">
-                <label>Password</label>
-                <input type="password" id="from-password" name="password">
+                <input type="text" id="search-name" name="search-name" placeholder="All macbooks in Vancouver">
               </div>
             </div>
 
+            <div class="sixteen wide field">
+              <label for="">URL</label>
+
+              <div class="field">
+                <input type="url" required id="search-url" name="search-url" placeholder="https://vancouver.craigslist.ca/search/sya?query=macbook&bundleDuplicates=1">
+              </div>
+            </div>
+
+            <div class="ui message negative mini hidden" id="errors">
+              <p>Oops... Something went wrong!</p>
+            </div>
+
             <div class="field">
-              <button id="email-settings" class="mini ui grey button">
-                <i class="save-check"></i>
-                <span>Save</span>
+              <button id="submit-search" class="ui purple button" type="submit">
+                Start
               </button>
             </div>
 
-          </form>
+          </div> <!-- end form / -->
+        </div><!-- end segment bottom / -->
+      </div><!-- end main container / -->
+
+      <!-- Email settings -->
+      <div class="ui padded segment mini" id="info-container">
+
+        <div class="ui accordion field">
+          <div class="title">
+            <i class="icon envelope"></i>
+            Email Settings
+          </div>
+
+          <div class="content">
+            <form class="ui form">
+
+              <h4>To:</h4>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" id="to-email" placeholder="your_actual_email_address@gmail.com">
+              </div>
+
+              <h4>From:</h4>
+              <div class="two fields">
+                <div class="field">
+                  <label>Email</label>
+                  <input type="email" name="email" id="from-email" placeholder="some_burner_email@gmail.com">
+                </div>
+
+                <div class="field">
+                  <label>Password</label>
+                  <input type="password" id="from-password" name="password">
+                </div>
+              </div>
+
+              <div class="field">
+                <button id="email-settings" class="mini ui grey button">
+                  <i class="save-check"></i>
+                  <span>Save</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
         </div>
-      </div>
-    </div><!-- /end email settings -->
+      </div><!-- /end email settings -->
+
+    </div>
+    <!-- end scroll wrapper -->
+
 
     <!-- Insert this line above script imports  -->
     <script>

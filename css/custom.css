@@ -3,6 +3,12 @@ body {
   overflow: hidden;
 }
 
+.scroll {
+  overflow-y: scroll;
+  height: 740px;
+  min-height: 740px;
+}
+
 .app-wrapper {
   margin: 20px;
 }
