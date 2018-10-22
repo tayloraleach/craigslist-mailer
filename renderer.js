@@ -29,50 +29,81 @@ let the_name = document.querySelector("#search-name");
 
 const dom_tickler = new DOM_Tickler();
 
+function start_a_search(data) {
+
+  const date = new Date();
+
+  // Create a new mailer
+  const mailer_options = {
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: from_email.value,
+      pass: from_password.value
+    }
+  }
+
+  const mailer = new Mailer(to_email.value, mailer_options);
+
+  if (typeof data == 'undefined') {
+    console.log('new search');
+    // Data object sent to the scraper
+    const form_data = {
+      id: the_URL + '::' + date.getTime(),
+      name: the_name,
+      search_url: the_URL,
+      date: date
+    }
+
+    // Create a new tab in the UI
+    dom_tickler.create_new_UI_tab(form_data);
+
+    // Create the scraper
+    const scraper = new Scraper(form_data, mailer);
+
+    // Add to scraper manager
+    Manager.scrapers.push({
+      scraper: scraper,
+      id: the_URL + '::' + date.getTime()
+    });
+
+    // Save the search query to persist across app shut down.
+    storage.set(form_data.id, form_data, function (error) {
+      if (error) throw error;
+    });
+
+    // Run the scraper
+    // scraper.start();
+
+  } else {
+    console.log('use passed in data');
+
+    // Create a new tab in the UI
+    dom_tickler.create_new_UI_tab(data);
+    // Create the scraper
+    const scraper = new Scraper(data, mailer);
+
+    // Add to scraper manager
+    Manager.scrapers.push({
+      scraper: scraper,
+      id: the_URL + '::' + date.getTime()
+    });
+
+    // Run the scraper
+    // scraper.start();
+  }
+
+}
+
 // Load any saved searches from the last session and restart them.
 storage.getAll(function (error, data) {
   if (error) throw error;
   for (var key in data) {
     if (key !== "email_settings") {
-      console.log(data[key]);
-      dom_tickler.create_new_UI_tab(data[key]);
-
-      ////////////////////
-      const date = new Date();
-
-      // Create a new mailer
-      const mailer_options = {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: from_email.value,
-          pass: from_password.value
-        }
-      }
-
-      const mailer = new Mailer(to_email.value, mailer_options);
-
-      // Data object sent to the scraper
-      const form_data = {
-        id: the_URL + '::' + date.getTime(),
-        name: the_name,
-        search_url: the_URL,
-        date: date
-      }
-      // Create the scraper
-      const scraper = new Scraper(form_data, mailer);
-
-      // Add to scraper manager
-      Manager.scrapers.push({
-        scraper: scraper,
-        id: the_URL + '::' + date.getTime()
-      });
-
-      // scraper.start();
-
-      //////////////////////
+      // console.log(data[key]);
+      start_a_search(data[key]);
     }
   }
 });
@@ -108,49 +139,50 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     error_message.classList.add('hidden');
     console.log('Scraping for: ' + the_name + ' at ' + the_URL);
 
-    const date = new Date();
+    start_a_search();
+    // const date = new Date();
 
-    // Create a new mailer
-    const mailer_options = {
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: from_email.value,
-        pass: from_password.value
-      }
-    }
+    // // Create a new mailer
+    // const mailer_options = {
+    //   host: 'smtp.gmail.com',
+    //   port: 587,
+    //   secure: false,
+    //   requireTLS: true,
+    //   auth: {
+    //     user: from_email.value,
+    //     pass: from_password.value
+    //   }
+    // }
 
-    const mailer = new Mailer(to_email.value, mailer_options);
+    // const mailer = new Mailer(to_email.value, mailer_options);
 
-    // Data object sent to the scraper
-    const form_data = {
-      id: the_URL + '::' + date.getTime(),
-      name: the_name,
-      search_url: the_URL,
-      date: date
-    }
+    // // Data object sent to the scraper
+    // const form_data = {
+    //   id: the_URL + '::' + date.getTime(),
+    //   name: the_name,
+    //   search_url: the_URL,
+    //   date: date
+    // }
 
-    // Create a new tab in the UI
-    dom_tickler.create_new_UI_tab(form_data);
+    // // Create a new tab in the UI
+    // dom_tickler.create_new_UI_tab(form_data);
 
-    // Create the scraper
-    const scraper = new Scraper(form_data, mailer);
+    // // Create the scraper
+    // const scraper = new Scraper(form_data, mailer);
 
-    // Add to scraper manager
-    Manager.scrapers.push({
-      scraper: scraper,
-      id: the_URL + '::' + date.getTime()
-    });
+    // // Add to scraper manager
+    // Manager.scrapers.push({
+    //   scraper: scraper,
+    //   id: the_URL + '::' + date.getTime()
+    // });
 
-    // Save the search query to persist across app shut down.
-    storage.set(form_data.id, form_data, function (error) {
-      if (error) throw error;
-    });
+    // // Save the search query to persist across app shut down.
+    // storage.set(form_data.id, form_data, function (error) {
+    //   if (error) throw error;
+    // });
 
-    // Run the scraper
-    // scraper.start();
+    // // Run the scraper
+    // // scraper.start();
 
   }
 });

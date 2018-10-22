@@ -35,6 +35,7 @@ module.exports = class DOM_Tickler {
       // Remove tab and body content when click tab close button
       if (e.target.classList.contains('close')) {
 
+        // Remove search query from user disk
         const file_name = e.target.parentElement.getAttribute('data-id');
         storage.remove(file_name, function(error) {
           if (error) throw error;
@@ -49,6 +50,7 @@ module.exports = class DOM_Tickler {
           }
         });
 
+        // Delete from the DOM
         document.querySelectorAll(`[data-tab]`).forEach((element) => {
           if (element.getAttribute('data-tab') == `data-${data.name}`) element.remove();
         });
@@ -57,13 +59,6 @@ module.exports = class DOM_Tickler {
         document.querySelectorAll('[data-tab]').forEach((x) => {
           if (x.getAttribute('data-tab') == 'scraper') {
             x.classList += ' active';
-          }
-        })
-
-        // Enable the link again once closed
-        document.querySelectorAll('.link-item').forEach((x) => {
-          if (this.innerText == x.innerText) {
-            x.classList.remove('disabled');
           }
         })
       }
