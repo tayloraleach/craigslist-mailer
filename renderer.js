@@ -24,13 +24,66 @@ const from_email = document.querySelector('#from-email');
 const from_password = document.querySelector('#from-password');
 const save_check = document.querySelector('.save-check');
 
+let the_URL = document.querySelector("#search-url");
+let the_name = document.querySelector("#search-name");
+
+const dom_tickler = new DOM_Tickler();
+
+// Load any saved searches from the last session and restart them.
+storage.getAll(function (error, data) {
+  if (error) throw error;
+  for (var key in data) {
+    if (key !== "email_settings") {
+      console.log(data[key]);
+      dom_tickler.create_new_UI_tab(data[key]);
+
+      ////////////////////
+      const date = new Date();
+
+      // Create a new mailer
+      const mailer_options = {
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+          user: from_email.value,
+          pass: from_password.value
+        }
+      }
+
+      const mailer = new Mailer(to_email.value, mailer_options);
+
+      // Data object sent to the scraper
+      const form_data = {
+        id: the_URL + '::' + date.getTime(),
+        name: the_name,
+        search_url: the_URL,
+        date: date
+      }
+      // Create the scraper
+      const scraper = new Scraper(form_data, mailer);
+
+      // Add to scraper manager
+      Manager.scrapers.push({
+        scraper: scraper,
+        id: the_URL + '::' + date.getTime()
+      });
+
+      // scraper.start();
+
+      //////////////////////
+    }
+  }
+});
+
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
   event.preventDefault();
 
   // Grab DOM elements/values
-  const the_URL = document.querySelector("#search-url").value;
-  const the_name = document.querySelector("#search-name").value;
+  the_URL = the_URL.value;
+  the_name = the_name.value;
   const error_message = document.querySelector("#errors");
 
   function show_error_message(msg) {
@@ -80,7 +133,6 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     }
 
     // Create a new tab in the UI
-    const dom_tickler = new DOM_Tickler();
     dom_tickler.create_new_UI_tab(form_data);
 
     // Create the scraper
@@ -92,8 +144,17 @@ document.querySelector("#submit-search").addEventListener("click", () => {
       id: the_URL + '::' + date.getTime()
     });
 
+    // Save the search query to persist across app shut down.
+    storage.set(form_data.id, {
+      name: the_name,
+      search_url: the_URL
+    }, function (error) {
+      if (error) throw error;
+    });
+
     // Run the scraper
-    scraper.start();
+    // scraper.start();
+
   }
 });
 
