@@ -5,6 +5,10 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 
+
+const dataPath = storage.getDataPath();
+console.log(dataPath);
+
 // Populate email settings field on load
 storage.get('email_settings', function (error, data) {
   if (error) throw error;

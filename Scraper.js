@@ -35,7 +35,7 @@ module.exports = class Scraper {
     // Store the reference to the timeOut and recursilvley call itself at a random interval.
     this.timer[this.id] = setTimeout(() => {
       this.start();
-    }, 20000);
+    }, rand);
   }
 
   check_for_new_listings(results) {
@@ -136,7 +136,7 @@ module.exports = class Scraper {
         // Launch & Setup browser
         this.browser = await puppeteer.launch({
           args: ["--no-sandbox"],
-          headless: false
+          headless: true
         });
         this.page = await this.browser.newPage();
         await this.page.setViewport({
