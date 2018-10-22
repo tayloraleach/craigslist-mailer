@@ -1,4 +1,5 @@
 const Manager = require('./Manager');
+const storage = require('electron-json-storage');
 
 module.exports = class DOM_Tickler {
 
@@ -33,6 +34,11 @@ module.exports = class DOM_Tickler {
     new_tab.addEventListener('click', function (e) {
       // Remove tab and body content when click tab close button
       if (e.target.classList.contains('close')) {
+
+        const file_name = e.target.parentElement.getAttribute('data-id');
+        storage.remove(file_name, function(error) {
+          if (error) throw error;
+        });
 
         // Stop scraper from running and remove scraper from manager
         Manager.scrapers.forEach(function (scraper, index) {

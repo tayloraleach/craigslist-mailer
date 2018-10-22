@@ -145,10 +145,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     });
 
     // Save the search query to persist across app shut down.
-    storage.set(form_data.id, {
-      name: the_name,
-      search_url: the_URL
-    }, function (error) {
+    storage.set(form_data.id, form_data, function (error) {
       if (error) throw error;
     });
 
