@@ -17,7 +17,7 @@ module.exports = class DOM_Tickler {
     let new_tab = document.createElement("div");
     new_tab.className = "item active";
     new_tab.setAttribute("data-tab", `data-${data.name}`);
-    new_tab.setAttribute("data-id", `data-${data.id}`);
+    new_tab.setAttribute("data-id", `${data.id}`);
     let indicator_icon = document.createElement('i');
     indicator_icon.className = 'circle green icon';
     var tab_text = document.createTextNode(data.name);
@@ -41,12 +41,13 @@ module.exports = class DOM_Tickler {
           if (error) throw error;
         });
 
+        // console.log(Manager.scrapers);
+
         // Stop scraper from running and remove scraper from manager
         Manager.scrapers.forEach(function (scraper, index) {
           if (scraper.id == data.id) {
             scraper.scraper.stop();
             Manager.scrapers.splice(index, 1);
-            console.log(Manager.scrapers);
           }
         });
 

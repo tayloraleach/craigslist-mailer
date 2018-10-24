@@ -38,6 +38,7 @@ const dom_tickler = new DOM_Tickler();
 function start_a_search(data) {
 
   const date = new Date();
+  const id = uuidv1();
 
   // Create a new mailer
   const mailer_options = {
@@ -56,8 +57,9 @@ function start_a_search(data) {
   if (typeof data == 'undefined') {
     // New search
     // Data object sent to the scraper
+
     const form_data = {
-      id: uuidv1(),
+      id: id,
       name: the_name,
       search_url: the_URL,
       date: date
@@ -72,7 +74,7 @@ function start_a_search(data) {
     // Add to scraper manager
     Manager.scrapers.push({
       scraper: scraper,
-      id: the_URL + '::' + date.getTime()
+      id: id
     });
 
     // Save the search query to persist across app shut down.
@@ -97,7 +99,7 @@ function start_a_search(data) {
     // Add to scraper manager
     Manager.scrapers.push({
       scraper: scraper,
-      id: the_URL + '::' + date.getTime()
+      id: id
     });
 
     // Run the scraper
