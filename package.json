@@ -19,6 +19,7 @@
   "dependencies": {
     "electron-json-storage": "^4.1.4",
     "nodemailer": "^4.6.7",
-    "puppeteer": "^1.8.0"
+    "puppeteer": "^1.8.0",
+    "uuid": "^3.3.2"
   }
 }

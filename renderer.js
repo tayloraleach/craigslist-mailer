@@ -4,7 +4,7 @@ const storage = require('electron-json-storage');
 const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
-
+const uuidv1 = require('uuid/v1');
 
 const dataPath = storage.getDataPath();
 console.log(dataPath);
@@ -57,7 +57,7 @@ function start_a_search(data) {
     // New search
     // Data object sent to the scraper
     const form_data = {
-      id: the_URL + '::' + date.getTime(),
+      id: uuidv1(),
       name: the_name,
       search_url: the_URL,
       date: date
