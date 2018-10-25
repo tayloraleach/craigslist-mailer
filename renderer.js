@@ -151,9 +151,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     from_email.value.length &&
     from_password.value.length) {
 
-      // HIDE ERROR MESSAGES
-    // error_message.classList.add('hidden');
-
+    Message.hide('.search-message');
     // start_a_search();
   }
 });
