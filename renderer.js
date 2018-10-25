@@ -34,6 +34,20 @@ let the_name_value;
 let the_name = document.querySelector("#search-name");
 
 const dom_tickler = new DOM_Tickler();
+let mailer      = null;
+let mailer_options = {
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: null,
+    pass: null
+    
+    // user: from_email.value,
+    // pass: from_password.value
+  }
+} 
 
 // Called both on application start and when a new search is created.
 // If a parameter is passed, it is a saved search from disk, otherwise it is a new search
@@ -42,24 +56,14 @@ function start_a_search(data) {
   const date = new Date();
   const id = uuidv1();
 
-  // Create a new mailer
-  const mailer_options = {
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-      user: from_email.value,
-      pass: from_password.value
-    }
-  }
-
-  const mailer = new Mailer(to_email.value, mailer_options);
+  // Set mail settings
+  mailer_options.auth.user = from_email.value;
+  mailer_options.auth.pass = from_password.value;
+  mailer = new Mailer(to_email.value, mailer_options);
 
   if (typeof data == 'undefined') {
     // New search
     // Data object sent to the scraper
-
     const form_data = {
       id: id,
       name: the_name_value,
@@ -148,38 +152,24 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     from_email.value.length &&
     from_password.value.length) {
     error_message.classList.add('hidden');
-    console.log('Scraping for: ' + the_name_value + ' at ' + the_URL_value);
-    
+
+    // console.log('Scraping for: ' + the_name_value + ' at ' + the_URL_value);    
     start_a_search();
   }
 });
 
-// Email settings save button event listner
-document.querySelector('#email-settings').addEventListener('click', () => {
+// Send test email button event listner
+document.querySelector('#send-test-email').addEventListener('click', () => {
   event.preventDefault();
 
-  // Save to json file
-  storage.set('email_settings', {
-    to_email: to_email.value,
-    from_email: from_email.value,
-    from_password: from_password.value,
-  }, function (error) {
-    if (error) throw error;
-  });
+    // Set mail settings
+    mailer_options.auth.user = from_email.value;
+    mailer_options.auth.pass = from_password.value;
+    mailer = new Mailer(to_email.value, mailer_options);
+    
 
-  // Indicate saved to the user
-  save_check.classList.add('icon');
-  save_check.classList.add('check');
-  save_check.parentNode.classList.add('green');
-  save_check.nextElementSibling.innerText = "Saved";
-
-  // Close accordian
-  setTimeout(() => {
-    $('.ui.accordion').accordion('close', 0);
-    save_check.classList.remove('icon');
-    save_check.classList.remove('check');
-    save_check.parentNode.classList.remove('green');
-    save_check.nextElementSibling.innerText = "Save";
-  }, 500);
-
+  mailer.send_test_email();
 });
+
+
+

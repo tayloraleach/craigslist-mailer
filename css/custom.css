@@ -5,8 +5,8 @@ body {
 
 .scroll {
   overflow-y: scroll;
-  height: 740px;
-  min-height: 740px;
+  height: 100vh;
+  /* min-height: 740px; */
 }
 
 .app-wrapper {

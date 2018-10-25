@@ -39,4 +39,16 @@ module.exports = class Mailer {
       console.log("Message sent to: " + mail_options.to);
     });
   }
+
+ send_test_email() {
+    const mail_options = {
+      to: this.receiver_email,
+      subject: 'Test Email',
+      html: 'Get ready for some deals.'
+    }
+    this.smtp_transport.sendMail(mail_options, (error, response) => {
+      if (error) return console.log(error);
+      console.log("Message sent to: " + mail_options.to);
+    });
+  }
 }
