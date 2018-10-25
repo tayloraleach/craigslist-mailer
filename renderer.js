@@ -5,6 +5,7 @@ const Scraper = require('./Scraper');
 const Manager = require('./Manager');
 const Mailer = require('./Mailer');
 const uuidv1 = require('uuid/v1');
+const Message = require('./Message');
 
 const dataPath = storage.getDataPath();
 console.log(dataPath);
@@ -29,9 +30,9 @@ const from_password = document.querySelector('#from-password');
 const save_check = document.querySelector('.save-check');
 
 let the_URL = document.querySelector("#search-url");
+let the_name = document.querySelector("#search-name");
 let the_URL_value;
 let the_name_value;
-let the_name = document.querySelector("#search-name");
 
 const dom_tickler = new DOM_Tickler();
 let mailer      = null;
@@ -43,15 +44,13 @@ let mailer_options = {
   auth: {
     user: null,
     pass: null
-    
-    // user: from_email.value,
-    // pass: from_password.value
   }
 } 
 
 // Called both on application start and when a new search is created.
 // If a parameter is passed, it is a saved search from disk, otherwise it is a new search
 function start_a_search(data) {
+  console.log('Scraping for: ' + the_name_value + ' at ' + the_URL_value);    
 
   const date = new Date();
   const id = uuidv1();
@@ -123,6 +122,13 @@ storage.getAll(function (error, data) {
   }
 });
 
+// const bad_email_settings = 'Make sure you fill out the email settings below';
+// const error_message = document.querySelector("#errors");
+// function show_error_message(msg) {
+//   error_message.querySelector('p').innerHTML = msg;
+//   error_message.classList.remove('hidden');
+// }
+
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
   event.preventDefault();
@@ -130,20 +136,13 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   // Grab DOM elements/values
   the_URL_value = the_URL.value;
   the_name_value = the_name.value;
-  const error_message = document.querySelector("#errors");
-
-  function show_error_message(msg) {
-    error_message.querySelector('p').innerHTML = msg;
-    error_message.classList.remove('hidden');
-  }
 
   // Error handling
-  if (the_URL_value.length < 1) show_error_message('Searching for nothing will yield poor results.');
-  if (the_name_value.length < 1) show_error_message('A name is required to remember what you were searching for!');
-  const bad_email_settings = 'Make sure you fill out the email settings below';
-  if (to_email.value.length < 1) show_error_message(bad_email_settings);
-  if (from_email.value.length < 1) show_error_message(bad_email_settings);
-  if (from_password.value.length < 1) show_error_message(bad_email_settings);
+  if (the_URL_value.length < 1) Message.show('.search-message', 'No URL specified');
+  if (the_name_value.length < 1) Message.show('.search-message', 'Please enter a name');
+  if (to_email.value.length < 1) Message.show('.search-message', 'Please enter email information below');
+  if (from_email.value.length < 1) Message.show('.search-message', 'Please enter email information below');
+  if (from_password.value.length < 1) Message.show('.search-message', 'Please enter email information below');
 
   // If no errors are detected
   if (the_URL_value.length &&
@@ -153,8 +152,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     from_password.value.length) {
     error_message.classList.add('hidden');
 
-    // console.log('Scraping for: ' + the_name_value + ' at ' + the_URL_value);    
-    start_a_search();
+    // start_a_search();
   }
 });
 
@@ -162,13 +160,24 @@ document.querySelector("#submit-search").addEventListener("click", () => {
 document.querySelector('#send-test-email').addEventListener('click', () => {
   event.preventDefault();
 
-    // Set mail settings
-    mailer_options.auth.user = from_email.value;
-    mailer_options.auth.pass = from_password.value;
-    mailer = new Mailer(to_email.value, mailer_options);
-    
+  if (to_email.value.length < 1) Message.show('.email-message', 'No sender specified');
+  if (from_email.value.length < 1) Message.show('.email-message', 'No receiver specified');
+  if (from_password.value.length < 1) Message.show('.email-message', 'No receiver password specified');
 
-  mailer.send_test_email();
+    // If no errors are detected
+    if (to_email.value.length &&
+        from_email.value.length &&
+        from_password.value.length) {
+
+        // Set mail settings
+        // mailer_options.auth.user = from_email.value;
+        // mailer_options.auth.pass = from_password.value;
+        // mailer = new Mailer(to_email.value, mailer_options);
+        
+        // mailer.send_test_email();
+        Message.show('.email-message', `Message sent to ${to_email.value}`, 'Make sure to check your junk mail. You may need to whitelist your sender address if it is a brand new account.');
+      }
+
 });
 
 
