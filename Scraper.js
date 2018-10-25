@@ -36,13 +36,13 @@ module.exports = class Scraper {
     // Store the reference to the timeOut and recursilvley call itself at a random interval.
     this.timer[this.id] = setTimeout(() => {
       this.start();
-    }, 20000);
+    }, rand);
   }
 
   check_for_new_listings(results) {
     var self = this; // This has to be before anything else
     // 1st scrape:
-    if (this.listings_array.length == 0) {
+    if (self.listings_array.length == 0) {
       // Update the ongoing array with the new scraped data.
       self.listings_array = results;
       console.log('Initial scrape! Got all ' + self.listings_array.length + ' listings from the page.');
@@ -137,7 +137,7 @@ module.exports = class Scraper {
         // Launch & Setup browser
         this.browser = await puppeteer.launch({
           args: ["--no-sandbox"],
-          headless: false
+          headless: true
         });
         this.page = await this.browser.newPage();
         await this.page.setViewport({

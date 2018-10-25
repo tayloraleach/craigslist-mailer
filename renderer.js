@@ -29,6 +29,8 @@ const from_password = document.querySelector('#from-password');
 const save_check = document.querySelector('.save-check');
 
 let the_URL = document.querySelector("#search-url");
+let the_URL_value;
+let the_name_value;
 let the_name = document.querySelector("#search-name");
 
 const dom_tickler = new DOM_Tickler();
@@ -60,8 +62,8 @@ function start_a_search(data) {
 
     const form_data = {
       id: id,
-      name: the_name,
-      search_url: the_URL,
+      name: the_name_value,
+      search_url: the_URL_value,
       date: date
     }
 
@@ -122,8 +124,8 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   event.preventDefault();
 
   // Grab DOM elements/values
-  the_URL = the_URL.value;
-  the_name = the_name.value;
+  the_URL_value = the_URL.value;
+  the_name_value = the_name.value;
   const error_message = document.querySelector("#errors");
 
   function show_error_message(msg) {
@@ -132,21 +134,21 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   }
 
   // Error handling
-  if (the_URL.length < 1) show_error_message('Searching for nothing will yield poor results.');
-  if (the_name.length < 1) show_error_message('A name is required to remember what you were searching for!');
+  if (the_URL_value.length < 1) show_error_message('Searching for nothing will yield poor results.');
+  if (the_name_value.length < 1) show_error_message('A name is required to remember what you were searching for!');
   const bad_email_settings = 'Make sure you fill out the email settings below';
   if (to_email.value.length < 1) show_error_message(bad_email_settings);
   if (from_email.value.length < 1) show_error_message(bad_email_settings);
   if (from_password.value.length < 1) show_error_message(bad_email_settings);
 
   // If no errors are detected
-  if (the_URL.length &&
-    the_name.length &&
+  if (the_URL_value.length &&
+    the_name_value.length &&
     to_email.value.length &&
     from_email.value.length &&
     from_password.value.length) {
     error_message.classList.add('hidden');
-    console.log('Scraping for: ' + the_name + ' at ' + the_URL);
+    console.log('Scraping for: ' + the_name_value + ' at ' + the_URL_value);
     
     start_a_search();
   }
