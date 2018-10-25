@@ -1,4 +1,4 @@
-const app = require("electron").remote.app;
+// const app = require("electron").remote.app;
 const DOM_Tickler = require('./DOM_Tickler');
 const storage = require('electron-json-storage');
 const Scraper = require('./Scraper');
@@ -7,6 +7,7 @@ const Mailer = require('./Mailer');
 const uuidv1 = require('uuid/v1');
 const Message = require('./Message');
 
+// Basic setup
 const dataPath = storage.getDataPath();
 console.log(dataPath);
 
@@ -18,24 +19,10 @@ storage.get('email_settings', function (error, data) {
   from_password.value = data.from_password;
 });
 
-// Activate tab switching
-$('.menu .item').tab();
-// Activate email settings accordian
-$('.ui.accordion').accordion();
-
-// Grab fields from DOM
-const to_email = document.querySelector('#to-email');
-const from_email = document.querySelector('#from-email');
-const from_password = document.querySelector('#from-password');
-const save_check = document.querySelector('.save-check');
-
-let the_URL = document.querySelector("#search-url");
-let the_name = document.querySelector("#search-name");
-let the_URL_value;
-let the_name_value;
-
 const dom_tickler = new DOM_Tickler();
-let mailer      = null;
+
+let mailer = null;
+
 let mailer_options = {
   host: 'smtp.gmail.com',
   port: 587,
@@ -46,6 +33,22 @@ let mailer_options = {
     pass: null
   }
 } 
+
+// Activate tab switching
+$('.menu .item').tab();
+// Activate email settings accordian
+$('.ui.accordion').accordion();
+
+// Grab fields from DOM
+const to_email      = document.querySelector('#to-email');
+const from_email    = document.querySelector('#from-email');
+const from_password = document.querySelector('#from-password');
+const save_check    = document.querySelector('.save-check');
+
+let the_URL  = document.querySelector("#search-url");
+let the_name = document.querySelector("#search-name");
+let the_URL_value;
+let the_name_value;
 
 // Called both on application start and when a new search is created.
 // If a parameter is passed, it is a saved search from disk, otherwise it is a new search
@@ -150,7 +153,6 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     start_a_search();
   }
 });
-
 
 // Email settings save button event listner
 document.querySelector('#email-settings').addEventListener('click', () => {
