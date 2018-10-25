@@ -53,7 +53,6 @@ let the_name_value;
 // Called both on application start and when a new search is created.
 // If a parameter is passed, it is a saved search from disk, otherwise it is a new search
 function start_a_search(data) {
-  console.log('Scraping for: ' + data.name + ' at ' + data.search_url);    
 
   const date = new Date();
   const id = uuidv1();
@@ -61,9 +60,11 @@ function start_a_search(data) {
   // Set mail settings
   mailer_options.auth.user = from_email.value;
   mailer_options.auth.pass = from_password.value;
-  mailer = new Mailer(to_email.value, mailer_options, data.name);
 
   if (typeof data == 'undefined') {
+    console.log('Scraping for: ' + the_name.value + ' at ' + the_URL.value);    
+    mailer = new Mailer(to_email.value, mailer_options, the_name.value);
+
     // New search
     // Data object sent to the scraper
     const form_data = {
@@ -98,6 +99,8 @@ function start_a_search(data) {
     scraper.start();
 
   } else {
+    console.log('Scraping for: ' + data.name + ' at ' + data.search_url);    
+    mailer = new Mailer(to_email.value, mailer_options, data.name);
     // Search pulled from disk
     // Create a new tab in the UI
     dom_tickler.create_new_UI_tab(data);
