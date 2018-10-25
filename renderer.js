@@ -150,7 +150,9 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     to_email.value.length &&
     from_email.value.length &&
     from_password.value.length) {
-    error_message.classList.add('hidden');
+
+      // HIDE ERROR MESSAGES
+    // error_message.classList.add('hidden');
 
     // start_a_search();
   }
