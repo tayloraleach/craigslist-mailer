@@ -122,12 +122,6 @@ storage.getAll(function (error, data) {
   }
 });
 
-// const bad_email_settings = 'Make sure you fill out the email settings below';
-// const error_message = document.querySelector("#errors");
-// function show_error_message(msg) {
-//   error_message.querySelector('p').innerHTML = msg;
-//   error_message.classList.remove('hidden');
-// }
 
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
@@ -152,9 +146,40 @@ document.querySelector("#submit-search").addEventListener("click", () => {
     from_password.value.length) {
 
     Message.hide('.search-message');
-    // start_a_search();
+
+    start_a_search();
   }
 });
+
+
+// Email settings save button event listner
+document.querySelector('#email-settings').addEventListener('click', () => {
+  event.preventDefault();
+
+  // Save to json file
+  storage.set('email_settings', {
+    to_email: to_email.value,
+    from_email: from_email.value,
+    from_password: from_password.value,
+  }, function (error) {
+    if (error) throw error;
+  });
+
+  // Indicate saved to the user
+  save_check.classList.add('icon');
+  save_check.classList.add('check');
+  save_check.nextElementSibling.innerText = "Saved";
+
+  // Close accordian
+  setTimeout(() => {
+    $('.ui.accordion').accordion('close', 0);
+    save_check.classList.remove('icon');
+    save_check.classList.remove('check');
+    save_check.nextElementSibling.innerText = "Save Settings";
+  }, 1000);
+
+});
+
 
 // Send test email button event listner
 document.querySelector('#send-test-email').addEventListener('click', () => {
@@ -169,15 +194,15 @@ document.querySelector('#send-test-email').addEventListener('click', () => {
         from_email.value.length &&
         from_password.value.length) {
 
-        // Set mail settings
-        // mailer_options.auth.user = from_email.value;
-        // mailer_options.auth.pass = from_password.value;
-        // mailer = new Mailer(to_email.value, mailer_options);
-        
-        // mailer.send_test_email();
-        Message.show('.email-message', `Message sent to ${to_email.value}`, 'Make sure to check your junk mail. You may need to whitelist your sender address if it is a brand new account.');
-      }
+      // Set mail settings
+      mailer_options.auth.user = from_email.value;
+      mailer_options.auth.pass = from_password.value;
+      mailer = new Mailer(to_email.value, mailer_options);
+      
+      mailer.send_test_email();
 
+      Message.show('.email-message', `Message sent to ${to_email.value}`, 'Make sure to check your junk mail. You may need to whitelist your sender address if it is a brand new account.', true);
+    }
 });
 
 
