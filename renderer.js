@@ -50,6 +50,16 @@ let the_name = document.querySelector("#search-name");
 let the_URL_value;
 let the_name_value;
 
+// Load any saved searches from the last session and restart them.
+storage.getAll(function (error, data) {
+  if (error) throw error;
+  for (var key in data) {
+    if (key !== "email_settings") {
+      start_a_search(data[key]);
+    }
+  }
+});
+
 // Called both on application start and when a new search is created.
 // If a parameter is passed, it is a saved search from disk, otherwise it is a new search
 function start_a_search(data) {
@@ -118,16 +128,6 @@ function start_a_search(data) {
   }
 }
 
-// Load any saved searches from the last session and restart them.
-storage.getAll(function (error, data) {
-  if (error) throw error;
-  for (var key in data) {
-    if (key !== "email_settings") {
-      start_a_search(data[key]);
-    }
-  }
-});
-
 
 // Main scrape button event listener
 document.querySelector("#submit-search").addEventListener("click", () => {
@@ -193,21 +193,19 @@ document.querySelector('#send-test-email').addEventListener('click', () => {
   if (to_email.value.length < 1) Message.show('.email-message', 'No sender specified');
   if (from_email.value.length < 1) Message.show('.email-message', 'No receiver specified');
   if (from_password.value.length < 1) Message.show('.email-message', 'No receiver password specified');
+  
+  // If no errors are detected
+  if (to_email.value.length && from_email.value.length && from_password.value.length) {
 
-    // If no errors are detected
-    if (to_email.value.length &&
-        from_email.value.length &&
-        from_password.value.length) {
+    // Set mail settings
+    mailer_options.auth.user = from_email.value;
+    mailer_options.auth.pass = from_password.value;
+    mailer = new Mailer(to_email.value, mailer_options);
+    
+    mailer.send_test_email();
 
-      // Set mail settings
-      mailer_options.auth.user = from_email.value;
-      mailer_options.auth.pass = from_password.value;
-      mailer = new Mailer(to_email.value, mailer_options);
-      
-      mailer.send_test_email();
-
-      Message.show('.email-message', `Message sent to ${to_email.value}`, 'Make sure to check your junk mail. You may need to whitelist your sender address if it is a brand new account.', true);
-    }
+    Message.show('.email-message', `Message sent to ${to_email.value}`, 'Make sure to check your junk mail. You may need to whitelist your sender address if it is a brand new account.', true);
+  }
 });
 
 

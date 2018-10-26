@@ -6,7 +6,6 @@ body {
 .scroll {
   overflow-y: scroll;
   height: 100vh;
-  /* min-height: 740px; */
 }
 
 .app-wrapper {
@@ -36,4 +35,13 @@ i.close.icon {
 
 .break-word {
   word-wrap: break-word;
+}
+
+h2 {
+  margin: 0;
+}
+h5 {
+  margin: 5px 0 20px;
+  color: #999;
+  font-style: italic;
 }
