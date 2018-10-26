@@ -1,3 +1,11 @@
+/*
+TODO: 
+  - Is the scraper actually stopped when you close a tab that was created on application start?
+  - Include analysis tab for generating average price (would need seperate interface for collecting just a keyword to search? unsure how it would work)
+  - Log messages to each tab with current status with datestamp
+*/
+
+
 // const app = require("electron").remote.app;
 const DOM_Tickler = require('./DOM_Tickler');
 const storage = require('electron-json-storage');
