@@ -95,7 +95,7 @@ module.exports = class DOM_Tickler {
         <h5>${data.name}</h5>
         <span><b>Searching:</b> ${data.search_url}</span>
         <div class="ui message" data-message="${data.id}">
-          <span class="header hidden"></span>
+          <h3 class="header">Status:</h3>
           <p class="body"></p>
         </div>
       </div>`;

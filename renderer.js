@@ -114,11 +114,11 @@ function start_a_search(data) {
     document.querySelector("#search-name").value = '';
 
     // Show logs
-    const log = 'Searching: <b>' + the_name.value + '</b> at "<b>' + the_URL.value + '</b>"';
+    const log = 'Searching: <b>' + the_name.value + '</b> at "<b>' + the_URL.value + '</b>"...';
     Message.show(`[data-message="${id}"]`, '', log);
 
     // Run the scraper
-    // scraper.start();
+    scraper.start();
 
   } else {   
 
@@ -136,11 +136,11 @@ function start_a_search(data) {
     });
 
     // Show logs
-    const log = 'Searching: <b>' + data.name + '</b> at "<b>' + data.search_url + '</b>"';
+    const log = 'Searching: <b>' + data.name + '</b> at "<b>' + data.search_url + '</b>"...';
     Message.show(`[data-message="${data.id}"]`, '', log);
 
     // Run the scraper
-    // scraper.start();
+    scraper.start();
   }
 }
 

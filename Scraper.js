@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const Message = require('./Message');
 
 module.exports = class Scraper {
 
@@ -45,7 +46,8 @@ module.exports = class Scraper {
     if (self.listings_array.length == 0) {
       // Update the ongoing array with the new scraped data.
       self.listings_array = results;
-      console.log('Initial scrape! Got all ' + self.listings_array.length + ' listings from the page.');
+
+      Message.show(`[data-message="${self.id}"]`, '', 'Initial scrape! Got all ' + self.listings_array.length + ' listings from the page. ||' + new Date());
 
       // Every successive scrape:
     } else {
@@ -71,7 +73,7 @@ module.exports = class Scraper {
       if (filtered_no_reposts.length > 0) {
         this.mailer.new_listings_found(filtered_no_reposts);
       } else {
-        console.log('Scraped, but nothing new yet!');
+        Message.show(`[data-message="${self.id}"]`, '', 'Scraped, but nothing new yet! || ' + new Date());
       }
     }
   }
@@ -151,7 +153,9 @@ module.exports = class Scraper {
 
         // Get all the listings on the page
         this.listings_array = await this.get_DOM_elements_from_page();
-        console.log(this.listings_array);
+        // console.log(this.listings_array);
+        Message.show(`[data-message="${this.id}"]`, '', 'Got ' + this.listings_array.length + ' listings from the page. || ' + new Date());
+
 
       } catch (err) {
         console.log('SOMETHING WENT WRONG', err);
