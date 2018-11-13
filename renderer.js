@@ -80,9 +80,7 @@ function start_a_search(data) {
   mailer_options.auth.pass = from_password.value;
 
   if (typeof data == 'undefined') {
-    const log = 'Scraping for: ' + the_name.value + ' at ' + the_URL.value;
-    // Message.show(`.message-${id}`, '', log);
-    // console.log(log);    
+
     mailer = new Mailer(to_email.value, mailer_options, the_name.value);
 
     // New search
@@ -115,6 +113,10 @@ function start_a_search(data) {
     document.querySelector("#search-url").value = '';
     document.querySelector("#search-name").value = '';
 
+    // Show logs
+    const log = 'Searching: <b>' + the_name.value + '</b> at "<b>' + the_URL.value + '</b>"';
+    Message.show(`[data-message="${id}"]`, '', log);
+
     // Run the scraper
     // scraper.start();
 
@@ -133,11 +135,9 @@ function start_a_search(data) {
       id: id
     });
 
-    const log = 'Scraping for: ' + data.name + ' at ' + data.search_url;
+    // Show logs
+    const log = 'Searching: <b>' + data.name + '</b> at "<b>' + data.search_url + '</b>"';
     Message.show(`[data-message="${data.id}"]`, '', log);
-    console.log(log); 
-    // document.querySelector(`[data-message="${data.id}"]`).innerHTML = log;
-
 
     // Run the scraper
     // scraper.start();
