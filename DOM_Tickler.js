@@ -37,7 +37,7 @@ module.exports = class DOM_Tickler {
 
         // Remove search query from user disk
         const file_name = e.target.parentElement.getAttribute('data-id');
-        storage.remove(file_name, function(error) {
+        storage.remove(file_name, function (error) {
           if (error) throw error;
         });
 
@@ -93,7 +93,11 @@ module.exports = class DOM_Tickler {
     let content = `
       <div class="ui segment break-word">
         <h5>${data.name}</h5>
-        <span>${data.search_url}</span>
+        <span><b>Searching:</b> ${data.search_url}</span>
+        <div class="ui message" data-message="${data.id}">
+          <span class="header hidden"></span>
+          <p class="body"></p>
+        </div>
       </div>`;
     return content;
   }

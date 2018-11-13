@@ -80,7 +80,9 @@ function start_a_search(data) {
   mailer_options.auth.pass = from_password.value;
 
   if (typeof data == 'undefined') {
-    console.log('Scraping for: ' + the_name.value + ' at ' + the_URL.value);    
+    const log = 'Scraping for: ' + the_name.value + ' at ' + the_URL.value;
+    // Message.show(`.message-${id}`, '', log);
+    // console.log(log);    
     mailer = new Mailer(to_email.value, mailer_options, the_name.value);
 
     // New search
@@ -114,10 +116,10 @@ function start_a_search(data) {
     document.querySelector("#search-name").value = '';
 
     // Run the scraper
-    scraper.start();
+    // scraper.start();
 
-  } else {
-    console.log('Scraping for: ' + data.name + ' at ' + data.search_url);    
+  } else {   
+
     mailer = new Mailer(to_email.value, mailer_options, data.name);
     // Search pulled from disk
     // Create a new tab in the UI
@@ -131,8 +133,14 @@ function start_a_search(data) {
       id: id
     });
 
+    const log = 'Scraping for: ' + data.name + ' at ' + data.search_url;
+    Message.show(`[data-message="${data.id}"]`, '', log);
+    console.log(log); 
+    // document.querySelector(`[data-message="${data.id}"]`).innerHTML = log;
+
+
     // Run the scraper
-    scraper.start();
+    // scraper.start();
   }
 }
 
