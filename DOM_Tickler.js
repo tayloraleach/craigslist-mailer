@@ -1,50 +1,47 @@
-const Manager = require('./Manager');
-const storage = require('electron-json-storage');
+const Manager = require("./Manager");
+const storage = require("electron-json-storage");
 
 module.exports = class DOM_Tickler {
-
   // Need to call this after new tabs are created
   instantiate_tabs() {
-    $('.menu .item').tab();
+    $(".menu .item").tab();
   }
 
   create_new_UI_tab(data) {
-
     // Remove currently active tab
-    remove_class_from_selectors('.top.attached.tabular.menu > *', 'active');
+    remove_class_from_selectors(".top.attached.tabular.menu > *", "active");
 
     // Create new tab
     let new_tab = document.createElement("div");
     new_tab.className = "item active";
     new_tab.setAttribute("data-tab", `data-${data.name}`);
     new_tab.setAttribute("data-id", `${data.id}`);
-    let indicator_icon = document.createElement('i');
-    indicator_icon.className = 'circle green icon';
+    let indicator_icon = document.createElement("i");
+    indicator_icon.className = "circle green icon";
     var tab_text = document.createTextNode(data.name);
-    let close_icon = document.createElement('i');
-    close_icon.className = 'close icon';
+    let close_icon = document.createElement("i");
+    close_icon.className = "close icon";
     new_tab.appendChild(indicator_icon);
     new_tab.appendChild(tab_text);
     new_tab.appendChild(close_icon);
 
     // Add tab to page
-    document.querySelector('.top.attached.tabular.menu').appendChild(new_tab);
+    document.querySelector(".top.attached.tabular.menu").appendChild(new_tab);
 
     // Event listeners for closing a tab
-    new_tab.addEventListener('click', function (e) {
+    new_tab.addEventListener("click", function(e) {
       // Remove tab and body content when click tab close button
-      if (e.target.classList.contains('close')) {
-
+      if (e.target.classList.contains("close")) {
         // Remove search query from user disk
-        const file_name = e.target.parentElement.getAttribute('data-id');
-        storage.remove(file_name, function (error) {
+        const file_name = e.target.parentElement.getAttribute("data-id");
+        storage.remove(file_name, function(error) {
           if (error) throw error;
         });
 
         // console.log(Manager.scrapers);
 
         // Stop scraper from running and remove scraper from manager
-        Manager.scrapers.forEach(function (scraper, index) {
+        Manager.scrapers.forEach(function(scraper, index) {
           if (scraper.id == data.id) {
             scraper.scraper.stop();
             Manager.scrapers.splice(index, 1);
@@ -52,28 +49,29 @@ module.exports = class DOM_Tickler {
         });
 
         // Delete from the DOM
-        document.querySelectorAll(`[data-tab]`).forEach((element) => {
-          if (element.getAttribute('data-tab') == `data-${data.name}`) element.remove();
+        document.querySelectorAll(`[data-tab]`).forEach(element => {
+          if (element.getAttribute("data-tab") == `data-${data.name}`)
+            element.remove();
         });
 
         // Set history tab back to active
-        document.querySelectorAll('[data-tab]').forEach((x) => {
-          if (x.getAttribute('data-tab') == 'scraper') {
-            x.classList += ' active';
+        document.querySelectorAll("[data-tab]").forEach(x => {
+          if (x.getAttribute("data-tab") == "scraper") {
+            x.classList += " active";
           }
-        })
+        });
       }
     });
 
     // Create content body
     (() => {
       // Remove currently active tab
-      remove_class_from_selectors('.ui.bottom.attached.tab.segment', 'active');
+      remove_class_from_selectors(".ui.bottom.attached.tab.segment", "active");
       // Grab main container
-      let main_container = document.querySelector('#main-content-container');
+      let main_container = document.querySelector("#main-content-container");
       // Create elements
       let tab_body_container = document.createElement("div");
-      let tab_body = document.createElement('div');
+      let tab_body = document.createElement("div");
       // Set properties
       tab_body_container.className = "ui bottom attached tab active segment";
       tab_body_container.setAttribute("data-tab", `data-${data.name}`);
@@ -101,5 +99,4 @@ module.exports = class DOM_Tickler {
       </div>`;
     return content;
   }
-
-}
+};
