@@ -121,7 +121,13 @@ function start_a_search(data) {
       id: id
     });
     const loadingMessage = `Searching for <b>${data.name}</b> at <b>${data.search_url}</b> ...`;
-    Message.show(`[data-message="${data.id}"]`, "", loadingMessage);
+    Message.show(
+      `[data-message="${data.id}"]`,
+      "",
+      loadingMessage,
+      false,
+      "grey"
+    );
     // Run the scraper
     scraper.start();
   }
@@ -136,16 +142,28 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   the_name_value = the_name.value;
 
   // Error handling
-  if (the_URL_value.length < 1)
-    Message.show(".search-message", "No URL specified");
-  if (the_name_value.length < 1)
-    Message.show(".search-message", "Please enter a name");
-  if (to_email.value.length < 1)
-    Message.show(".search-message", "Please enter email information below");
-  if (from_email.value.length < 1)
-    Message.show(".search-message", "Please enter email information below");
-  if (from_password.value.length < 1)
-    Message.show(".search-message", "Please enter email information below");
+  const msg = x =>
+    Message.show(
+      ".search-message",
+      x,
+      "All fields are required.",
+      false,
+      "red"
+    );
+
+  if (the_URL_value.length < 1) {
+    msg("Please enter a valid URL.");
+  }
+  if (the_name_value.length < 1) {
+    msg("Please enter a name.");
+  }
+  if (
+    to_email.value.length < 1 ||
+    from_email.value.length < 1 ||
+    from_password.value.length < 1
+  ) {
+    msg("Invalid email settings. Please fill in the email fields below.");
+  }
 
   const noErros =
     the_URL_value.length &&

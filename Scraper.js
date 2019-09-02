@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const Message = require("./Message");
+const moment = require("moment");
 
 module.exports = class Scraper {
   constructor(data, mailer) {
@@ -52,7 +53,7 @@ module.exports = class Scraper {
         "Initial scrape! Got all " +
           self.listings_array.length +
           " listings from the page. ||" +
-          new Date()
+          moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
       );
 
       // Every successive scrape:
@@ -82,7 +83,8 @@ module.exports = class Scraper {
         Message.show(
           `[data-message="${self.id}"]`,
           "",
-          "Scraped, but nothing new yet! || " + new Date()
+          "Scraped, but nothing new yet! || " +
+            moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
         );
       }
     }
@@ -176,7 +178,7 @@ module.exports = class Scraper {
           "Got " +
             this.listings_array.length +
             " listings from the page. || " +
-            new Date()
+            moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
         );
       } catch (err) {
         console.log("SOMETHING WENT WRONG", err);
