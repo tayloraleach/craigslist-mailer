@@ -52,8 +52,9 @@ module.exports = class Scraper {
         "",
         "Initial scrape! Got all " +
           self.listings_array.length +
-          " listings from the page. ||" +
-          moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+          " listings from the page. <br> (" +
+          moment().format("dddd, MMMM Do YYYY, h:mm a") +
+          ")"
       );
 
       // Every successive scrape:
@@ -82,9 +83,8 @@ module.exports = class Scraper {
       } else {
         Message.show(
           `[data-message="${self.id}"]`,
-          "",
-          "Scraped, but nothing new yet! || " +
-            moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+          "No new posts.",
+          "Last scrape was at" + moment().format("dddd, MMMM Do YYYY, h:mm a")
         );
       }
     }
@@ -103,24 +103,16 @@ module.exports = class Scraper {
         try {
           if (p_result_info) {
             listing.id = element.getAttribute("data-pid");
-            listing.title = p_result_info.querySelector(
-              "a.result-title"
-            ).innerText;
+            listing.title = p_result_info.querySelector("a.result-title").innerText;
             listing.href = p_result_info.querySelector("a.result-title").href;
-            listing.data_time = p_result_info
-              .querySelector("time.result-date")
-              .getAttribute("datetime");
+            listing.data_time = p_result_info.querySelector("time.result-date").getAttribute("datetime");
           }
           if (result_meta) {
             if (result_meta.querySelector("span.result-price")) {
-              listing.price = result_meta.querySelector(
-                "span.result-price"
-              ).innerText;
+              listing.price = result_meta.querySelector("span.result-price").innerText;
             }
             if (result_meta.querySelector("span.result-hood")) {
-              listing.hood = result_meta.querySelector(
-                "span.result-hood"
-              ).innerText;
+              listing.hood = result_meta.querySelector("span.result-hood").innerText;
             }
           }
         } catch (e) {
@@ -172,14 +164,13 @@ module.exports = class Scraper {
         // Get all the listings on the page
         this.listings_array = await this.get_DOM_elements_from_page();
         // console.log(this.listings_array);
-        Message.show(
-          `[data-message="${this.id}"]`,
-          "",
-          "Got " +
-            this.listings_array.length +
-            " listings from the page. || " +
-            moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
-        );
+        const listings = this.listings_array.length;
+        const msg = `Got ${
+          listings > 1 ? listings + " listings" : " listing"
+        } from the page. Now we wait... When a new listing is posted it will be emailed to you! <br /> (${moment().format(
+          "dddd, MMMM Do YYYY, h:mm a"
+        )})`;
+        Message.show(`[data-message="${this.id}"]`, "Initial Scrape Successful!", msg);
       } catch (err) {
         console.log("SOMETHING WENT WRONG", err);
       }

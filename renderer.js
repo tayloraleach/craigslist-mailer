@@ -121,13 +121,7 @@ function start_a_search(data) {
       id: id
     });
     const loadingMessage = `Searching for <b>${data.name}</b> at <b>${data.search_url}</b> ...`;
-    Message.show(
-      `[data-message="${data.id}"]`,
-      "",
-      loadingMessage,
-      false,
-      "grey"
-    );
+    Message.show(`[data-message="${data.id}"]`, "", loadingMessage, false, "grey");
     // Run the scraper
     scraper.start();
   }
@@ -142,14 +136,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   the_name_value = the_name.value;
 
   // Error handling
-  const msg = x =>
-    Message.show(
-      ".search-message",
-      x,
-      "All fields are required.",
-      false,
-      "red"
-    );
+  const msg = x => Message.show(".search-message", x, "All fields are required.", false, "red");
 
   if (the_URL_value.length < 1) {
     msg("Please enter a valid URL.");
@@ -157,11 +144,7 @@ document.querySelector("#submit-search").addEventListener("click", () => {
   if (the_name_value.length < 1) {
     msg("Please enter a name.");
   }
-  if (
-    to_email.value.length < 1 ||
-    from_email.value.length < 1 ||
-    from_password.value.length < 1
-  ) {
+  if (to_email.value.length < 1 || from_email.value.length < 1 || from_password.value.length < 1) {
     msg("Invalid email settings. Please fill in the email fields below.");
   }
 
@@ -222,10 +205,7 @@ document.querySelector("#send-test-email").addEventListener("click", () => {
   if (from_password.value.length < 1) {
     msg("No receiver password specified");
   }
-  const noErrors =
-    to_email.value.length &&
-    from_email.value.length &&
-    from_password.value.length;
+  const noErrors = to_email.value.length && from_email.value.length && from_password.value.length;
 
   if (noErrors) {
     // Set mail settings

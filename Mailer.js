@@ -17,18 +17,12 @@ module.exports = class Mailer {
     var deals_string = "<div><h2>Check these out...</h2><br>";
     console.log(results);
     for (var deal in results) {
-      deals_string +=
-        '<div style="width: 100%; display: block; margin-bottom: 10px;">';
-      deals_string +=
-        '<h3 style="display: inline;">' + results[deal].title + "</h3>";
+      deals_string += '<div style="width: 100%; display: block; margin-bottom: 10px;">';
+      deals_string += '<h3 style="display: inline;">' + results[deal].title + "</h3>";
       if (results[deal].price)
-        deals_string +=
-          '<h3 style="display: inline; color: #999";> - (' +
-          results[deal].price +
-          ")</h3>";
+        deals_string += '<h3 style="display: inline; color: #999";> - (' + results[deal].price + ")</h3>";
       deals_string += "<br>";
-      deals_string +=
-        '<a href="' + results[deal].href + '">' + results[deal].href + "</a>";
+      deals_string += '<a href="' + results[deal].href + '">' + results[deal].href + "</a>";
       deals_string += "</div>";
     }
     deals_string += "</div>";
