@@ -84,7 +84,7 @@ module.exports = class Scraper {
         Message.show(
           `[data-message="${self.id}"]`,
           "No new posts.",
-          "Last scrape was at" + moment().format("dddd, MMMM Do YYYY, h:mm a")
+          "Last scrape was at " + moment().format("dddd, MMMM Do YYYY, h:mm a")
         );
       }
     }

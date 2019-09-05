@@ -1,11 +1,5 @@
 module.exports = class Message {
-  static show(
-    element,
-    header,
-    body = "",
-    temporary = false,
-    color = "positive"
-  ) {
+  static show(element, header, body = "", temporary = false, color = "positive") {
     const elm = document.querySelector(element);
     elm.classList.remove("hidden");
     elm.classList.add(color);
